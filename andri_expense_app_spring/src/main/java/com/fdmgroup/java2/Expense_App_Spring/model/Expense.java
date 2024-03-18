@@ -36,28 +36,24 @@ public class Expense {
 	private boolean status;
 	
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Expense must have a registered date")
 	private Date date;
 	
 	private String description;
 	
 
 	// Mapped attributes
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "user_ID")
-	@JsonIdentityReference(alwaysAsId = true)
 	@NotNull(message = "Must have user to key in expense")
 	private User user;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "company_ID")
-	@JsonIdentityReference(alwaysAsId = true)
-	@NotNull(message = "Expense must be company registered")
 	private Company company;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "category_ID")
-	@JsonIdentityReference(alwaysAsId = true)
-	@NotNull(message = "Expense must have a category")
 	private Category category;
 	
 	// Constructors
@@ -65,11 +61,12 @@ public class Expense {
 		super();
 	}
 	
-	public Expense(double amount, boolean status, Date date) {
+	public Expense(double amount, boolean status, Date date, User user) {
 		super();
 		this.amount = amount;
 		this.status = status;
 		this.date = date;
+		this.user = user;
 	}
 
 	// Getters and setters
