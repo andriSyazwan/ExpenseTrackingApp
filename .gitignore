@@ -1,4 +1,7 @@
 #This is just in case
 application.properties
-/target/
+target/
 ExpenseAppReact/node_modules/
+/andri_expense_app_spring/target/
+/andri_expense_app_spring/.idea/
+/andri_expense_app_spring/.metadata/
