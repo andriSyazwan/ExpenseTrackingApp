@@ -1,4 +1,4 @@
 #This is just in case
 application.properties
-
+/target/
 ExpenseAppReact/node_modules/
