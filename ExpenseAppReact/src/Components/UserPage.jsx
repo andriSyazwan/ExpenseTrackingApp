@@ -31,7 +31,7 @@ const UserPage = () => {
             .get(api+'users/'+ user_id)
             .then((response) => {
                 setUser(response.data);
-                setCompanyId(response.data.company); 
+                setCompanyId(response.data.company.name); 
     
             })
             .catch((error) => {
@@ -52,7 +52,7 @@ const UserPage = () => {
         const getCompany = async () => {
             if(companyId) {
                 // Fetch Company Data
-                axios.get(api+'companies/' + companyId)
+                axios.get(api+'companies/name/' + companyId)
                 .then(response => {
                     // Code for success
                     setCompany(response.data);

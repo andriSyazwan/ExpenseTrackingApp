@@ -12,6 +12,7 @@ const LoginPage = () => {
     const [isPassword, setIsPassword] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isError, setIsError] = useState(false);
+    const api = 'http://localhost:9002/api/';
 
     // Called upon successfully pressing the login button without errors
     const handleSubmit = (event) => {
@@ -25,7 +26,7 @@ const LoginPage = () => {
 
     
         // Make an API request to check if the username and password are valid
-        axios.post('http://localhost:9002/api/users/login',
+        axios.post(api+'users/login',
         {username: username,
         password: password})
         .then(response => {
@@ -37,6 +38,8 @@ const LoginPage = () => {
         .catch(error => {
             // Code to catch error
             setIsError(true)
+            console.log(error);
+            console.log(username, password);
         })
         
 

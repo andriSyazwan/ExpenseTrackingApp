@@ -24,7 +24,7 @@ const CompanyPage = () => {
             .get(api+'users/'+ user_id)
             .then((response) => {
                 setUser(response.data);
-                setCompanyId(response.data.company);         
+                setCompanyId(response.data.company.company_id);         
             })
             .catch((error) => {
                 console.error("Error fetching user please re-login:", error);

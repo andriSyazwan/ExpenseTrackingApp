@@ -53,6 +53,18 @@ public class AppRunner implements ApplicationRunner{
 
 		Category catTest1 = new Category(ExpenseCategory.Marketing);
 		Category catTest2 = new Category(ExpenseCategory.OfficeSupplies);
+		Category catTest3 = new Category(ExpenseCategory.Charity);
+		Category catTest4 = new Category(ExpenseCategory.ClientServices);
+		Category catTest5 = new Category(ExpenseCategory.EmployeeBenefits);
+		Category catTest6 = new Category(ExpenseCategory.Entertainement);
+		Category catTest7 = new Category(ExpenseCategory.Insurance);
+		Category catTest8 = new Category(ExpenseCategory.Miscellaneous);
+		Category catTest9 = new Category(ExpenseCategory.Rent);
+		Category catTest10 = new Category(ExpenseCategory.Salaries);
+		Category catTest11 = new Category(ExpenseCategory.Software);
+		Category catTest12 = new Category(ExpenseCategory.Training);
+		Category catTest13 = new Category(ExpenseCategory.Travel);
+		Category catTest14 = new Category(ExpenseCategory.Utilities);
 
 		// Test Saving
 		userRepoTest.save(userTest1);
@@ -71,6 +83,18 @@ public class AppRunner implements ApplicationRunner{
 
 		catRepoTest.save(catTest1);
 		catRepoTest.save(catTest2);
+		catRepoTest.save(catTest3);
+		catRepoTest.save(catTest4);
+		catRepoTest.save(catTest5);
+		catRepoTest.save(catTest6);
+		catRepoTest.save(catTest7);
+		catRepoTest.save(catTest8);
+		catRepoTest.save(catTest9);
+		catRepoTest.save(catTest10);
+		catRepoTest.save(catTest11);
+		catRepoTest.save(catTest12);
+		catRepoTest.save(catTest13);
+		catRepoTest.save(catTest14);
 
 		// Specify Company for each object
 		userTest1.setCompany(coyTest1);
