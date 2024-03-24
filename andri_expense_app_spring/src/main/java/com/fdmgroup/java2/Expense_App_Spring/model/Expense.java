@@ -61,12 +61,13 @@ public class Expense {
 		super();
 	}
 	
-	public Expense(double amount, boolean status, Date date, User user) {
+	public Expense(double amount, boolean status, Date date, User user, Category category) {
 		super();
 		this.amount = amount;
 		this.status = status;
 		this.date = date;
 		this.user = user;
+		this.category = category;
 	}
 
 	// Getters and setters
