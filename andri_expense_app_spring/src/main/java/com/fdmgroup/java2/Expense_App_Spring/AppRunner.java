@@ -202,6 +202,73 @@ public class AppRunner implements ApplicationRunner{
 		userRepoTest.save(userTest15);
 		userRepoTest.save(userTestToBeDeleted);
 
+		// Save all expenses into the correct company
+		expTest1.setCompany(expTest1.getUser().getCompany());
+		expTest2.setCompany(expTest2.getUser().getCompany());
+		expTest3.setCompany(expTest3.getUser().getCompany());
+		expTest4.setCompany(expTest4.getUser().getCompany());
+		expTest5.setCompany(expTest5.getUser().getCompany());
+		expTest6.setCompany(expTest6.getUser().getCompany());
+		expTest7.setCompany(expTest7.getUser().getCompany());
+		expTest8.setCompany(expTest8.getUser().getCompany());
+		expTest9.setCompany(expTest9.getUser().getCompany());
+		expTest10.setCompany(expTest10.getUser().getCompany());
+
+		expTest11.setCompany(expTest11.getUser().getCompany());
+		expTest12.setCompany(expTest12.getUser().getCompany());
+		expTest13.setCompany(expTest13.getUser().getCompany());
+		expTest14.setCompany(expTest14.getUser().getCompany());
+		expTest15.setCompany(expTest15.getUser().getCompany());
+		expTest16.setCompany(expTest16.getUser().getCompany());
+		expTest17.setCompany(expTest17.getUser().getCompany());
+		expTest18.setCompany(expTest18.getUser().getCompany());
+		expTest19.setCompany(expTest19.getUser().getCompany());
+		expTest20.setCompany(expTest20.getUser().getCompany());
+
+		expTest21.setCompany(expTest21.getUser().getCompany());
+		expTest22.setCompany(expTest22.getUser().getCompany());
+		expTest23.setCompany(expTest23.getUser().getCompany());
+		expTest24.setCompany(expTest24.getUser().getCompany());
+		expTest25.setCompany(expTest25.getUser().getCompany());
+		expTest26.setCompany(expTest26.getUser().getCompany());
+		expTest27.setCompany(expTest27.getUser().getCompany());
+		expTest28.setCompany(expTest28.getUser().getCompany());
+		expTest29.setCompany(expTest29.getUser().getCompany());
+		expTest30.setCompany(expTest30.getUser().getCompany());
+
+		expTest31.setCompany(expTest31.getUser().getCompany());
+		expTest32.setCompany(expTest32.getUser().getCompany());
+		expTest33.setCompany(expTest33.getUser().getCompany());
+		expTest34.setCompany(expTest34.getUser().getCompany());
+		expTest35.setCompany(expTest35.getUser().getCompany());
+		expTest36.setCompany(expTest36.getUser().getCompany());
+		expTest37.setCompany(expTest37.getUser().getCompany());
+		expTest38.setCompany(expTest38.getUser().getCompany());
+		expTest39.setCompany(expTest39.getUser().getCompany());
+		expTest40.setCompany(expTest40.getUser().getCompany());
+
+		expTest41.setCompany(expTest41.getUser().getCompany());
+		expTest42.setCompany(expTest42.getUser().getCompany());
+		expTest43.setCompany(expTest43.getUser().getCompany());
+		expTest44.setCompany(expTest44.getUser().getCompany());
+		expTest45.setCompany(expTest45.getUser().getCompany());
+		expTest46.setCompany(expTest46.getUser().getCompany());
+		expTest47.setCompany(expTest47.getUser().getCompany());
+		expTest48.setCompany(expTest48.getUser().getCompany());
+		expTest49.setCompany(expTest49.getUser().getCompany());
+		expTest50.setCompany(expTest50.getUser().getCompany());
+
+		expTest51.setCompany(expTest51.getUser().getCompany());
+		expTest52.setCompany(expTest52.getUser().getCompany());
+		expTest53.setCompany(expTest53.getUser().getCompany());
+		expTest54.setCompany(expTest54.getUser().getCompany());
+		expTest55.setCompany(expTest55.getUser().getCompany());
+		expTest56.setCompany(expTest56.getUser().getCompany());
+		expTest57.setCompany(expTest57.getUser().getCompany());
+		expTest58.setCompany(expTest58.getUser().getCompany());
+		expTest59.setCompany(expTest59.getUser().getCompany());
+		expTest60.setCompany(expTest60.getUser().getCompany());
+
 		// Save all categories
 		catRepoTest.save(Marketing);
 		catRepoTest.save(OfficeSupplies);
