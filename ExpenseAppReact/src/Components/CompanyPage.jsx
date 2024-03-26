@@ -1,7 +1,8 @@
 import "../Styles/CompanyPage.css";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom';
+import * as d3 from 'd3';
 
 // Page that mainly displays the lsit of expenses
 const CompanyPage = () => {
@@ -15,79 +16,154 @@ const CompanyPage = () => {
     const [companyId, setCompanyId] = useState();
     const [errorMessage, setErrorMessage] = useState();
     const api = 'http://localhost:9002/api/'
+
+    // Fetching of API in sequence
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (user_id) {
+                    const userDataResponse = await axios.get(api + 'users/' + user_id);
+                    setUser(userDataResponse.data);
+                    setCompanyId(userDataResponse.data.company.company_id);
     
-    useEffect(() => {
-        // First useEffect sequence
-        const fetchUserData = async () => {
-            // Fetches the user from userId
-            axios
-            .get(api+'users/'+ user_id)
-            .then((response) => {
-                setUser(response.data);
-                setCompanyId(response.data.company.company_id);         
-            })
-            .catch((error) => {
-                console.error("Error fetching user please re-login:", error);
-            });
-        };
-
-        // Calls the fetching of user upon receiving user_id
-        if (user_id) {
-            fetchUserData();
-        }
-
-    }, [user_id]);
-
-    useEffect(() => {
-        // Second user effect sequence
-        const getCompany = async () => {
-        // Goes through once companyId is present    
-            if(companyId ) {
-                axios.get(api+'companies/' + companyId)
-                .then(response => {
-                    // Code for success
-                    setCompany(response.data)
-                    
-                })
-                .catch(error => {
-                    // Code to catch error
-                setErrorMessage("Invalid Company ID, please try again")
-                })
-            }   
-        }
-
-        // Calls when user and company obj in user is present
-        if (user && user.company) {
-            getCompany();
-        }
-    }, [user])
-
-
-    useEffect(() => {
-        const fetchExpenseData = async () => {
-            // Fetch list of expenses
-            if(company) {
-                axios.get(api+'expense/company/'+company.name)
-                .then((response) => {
-                    setExpenses(response.data);
-                    setIsDataLoaded(true);
-                })
-                .catch((error) => {
-                    console.error('Error fetching expenses:', error)
-                });            
+                    if (userDataResponse.data.company.company_id) {
+                        const companyDataResponse = await axios.get(api + 'companies/' + userDataResponse.data.company.company_id);
+                        setCompany(companyDataResponse.data);
+    
+                        const expenseDataResponse = await axios.get(api + 'expense/company/' + companyDataResponse.data.name);
+                        setExpenses(formatExpenses(expenseDataResponse.data));
+                        setIsDataLoaded(true);
+                    }
+                }
+            } catch (error) {
+                setErrorMessage("Failed to fetch data");
             }
         };
+    
+        fetchData();
+    }, [user_id]);
 
-        // Calls when company and company name is present
-        if (company && company.name) {
-            fetchExpenseData();
-        };
-    }, [company]);
+    // To parse the expense into correct objects
+    function formatExpenses(expenses) {
+        return expenses.map(expense => ({
+            expense_id: expense.expense_id,
+            amount: expense.amount,
+            status: expense.status,
+            date: expense.date,
+            description: expense.description,
+            category: expense.category.name, // Assuming category is an object with a 'name' property
+        }));
+    };
+
+    // Function to display expenses
+    function displayExpenses(expenses) {
+        return (
+            <div>
+                {expenses.map(expense => (
+                    <div key={expense.expense_id} className="expense-card">
+                        <p>Amount: ${expense.amount}</p>
+                        <p>Status: {expense.status ? 'Approved' : 'Pending'}</p>
+                        <p>Date: {expense.date}</p>
+                        <p>Description: {expense.description || 'N/A'}</p>
+                        <p>Category: {expense.category || 'N/A'}</p>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    useEffect(() => {
+        // The bar chart script
+        // Parse dates and extract month
+        expenses.forEach(expense => {
+            expense.date = new Date(expense.date);
+            expense.month = expense.date.getMonth() + 1; // Add 1 to get month index starting from 1
+        });
+
+        // Calculate sum of expenses for each month
+        const expensesByMonth = d3.rollup(
+            expenses,
+            v => d3.sum(v, d => d.amount),
+            d => d.month
+        );
+
+        // Convert rollup result to array of objects
+        const data = Array.from(expensesByMonth, ([month, total]) => ({ month, total }));
+
+        // Set up SVG dimensions
+        const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+
+        // Create SVG container
+        const svg = d3.create("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Create scales
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.month))
+            .range([0, width])
+            .padding(0.1);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.total)])
+            .nice()
+            .range([height, 0]);
+
+        // Add bars to the chart
+        svg.selectAll(".bar")
+            .data(data)
+            .join("rect")
+            .attr("class", "bar")
+            .attr("x", d => x(d.month))
+            .attr("y", d => y(d.total))
+            .attr("width", x.bandwidth())
+            .attr("height", d => height - y(d.total));
+
+        // Add x-axis
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x));
+
+        // Add y-axis
+        svg.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y).ticks(null, "s"));
+
+        // Add chart title
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", -margin.top / 2)
+            .attr("text-anchor", "middle")
+            .text("Total Expenses by Month");
+
+        // Add labels to bars
+        svg.selectAll(".bar-label")
+            .data(data)
+            .join("text")
+            .attr("class", "bar-label")
+            .attr("x", d => x(d.month) + x.bandwidth() / 2)
+            .attr("y", d => y(d.total) - 5)
+            .attr("text-anchor", "middle")
+            .text(d => d3.format("$,.2f")(d.total));
+
+        const container = document.getElementById("chart-container");
+        if (container) {
+            // Append SVG to the chart-container element
+            container.appendChild(svg.node());
+            console.log("Done bro")
+        }
+
+    }, [expenses])
 
     // Returns loading screen up until all data is fetched 
     if(!isDataLoaded) {
         return(
-            <div>
+            <div class="loadScreen">
                 Loading...
             </div>
         );
@@ -102,18 +178,23 @@ const CompanyPage = () => {
             </div>
 
             <div className="expense-list">
-                <h3>Expense List</h3>
-                {expenses.map(expense => (
-                    <div key={expense.expense_id} className="expense-card">
-                        <p>Amount: ${expense.amount}</p>
-                        <p>Status: {expense.status ? 'Approved' : 'Pending'}</p>
-                        <p>Date: {expense.date}</p>
-                        <p>Description: {expense.description || 'N/A'}</p>
-                        <p>Category: {expense.category || 'N/A'}</p>
+                <div className="fixed-container">
+                    <div className="CompanyTitle">
+                        <h3>Expense List</h3>
                     </div>
-                ))}
-                <button onClick={() => navigate('/userpage/'+user_id)}>User Page</button>
+                    <div className="ExpenseComponent">
+                        {displayExpenses(expenses)}
+                    </div>
+                </div>
+                <div className="BottomButton">
+                    <button onClick={() => navigate('/userpage/'+user_id)}>User Page</button>
+                </div>
             </div>
+
+            <div id="chart-container">
+                
+            </div>
+                
         </div>
     );
 }
