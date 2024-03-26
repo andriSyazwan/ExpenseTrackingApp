@@ -151,12 +151,12 @@ const UserPage = () => {
     <div className="user-page-container">
       <div className="user-info">
         <h2>{user.firstName} {user.lastName}</h2>
-        <p>Username: {user.username}</p>
+        <p className="welcome">Welcome {user.username}!</p>
         <button onClick={() => navigate('/companypage/'+user_id)}>Company Page</button>
       </div>
 
       <div className="expense-form">
-        <h3>Create Expense</h3>
+        <h3 className="pageTitle">Create Expense</h3>
         <form onSubmit={handleExpenseSubmit}>
           <label>
             Amount:
