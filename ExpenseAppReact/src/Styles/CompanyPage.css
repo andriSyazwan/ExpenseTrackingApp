@@ -24,14 +24,14 @@
 .expense-list {
   flex-direction: column;
   align-items: center; /* Aligns items horizontally (left to right) */
-  justify-content: auto; /* Aligns items vertically (top to bottom) */
-  height: 100vh; /* Set the height to 100% of the viewport height */
+ /* Aligns items vertically (top to bottom) */
+ /* Set the height to 100% of the viewport height */
 }
 
 .fixed-container {
     flex: 1; /* Allow the container to grow and occupy the remaining space */
     overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 300px; /* Set a fixed height */
+     /* Set a fixed height */
 }
 
 .ExpenseComponent {

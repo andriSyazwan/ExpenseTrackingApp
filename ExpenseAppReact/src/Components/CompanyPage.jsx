@@ -1,5 +1,5 @@
 import "../Styles/CompanyPage.css";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as d3 from 'd3';
@@ -15,7 +15,8 @@ const CompanyPage = () => {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [companyId, setCompanyId] = useState();
     const [errorMessage, setErrorMessage] = useState();
-    const api = 'http://localhost:9002/api/'
+    const api = 'http://localhost:9002/api/';
+    const svgRef = useRef();
 
     // Fetching of API in sequence
     useEffect(() => {
@@ -72,8 +73,27 @@ const CompanyPage = () => {
         );
     }
 
+    // Function to convert number to date
+    function toDate(number) {
+        switch (number) {
+            case 1:
+                return "Jan"
+                break;
+            case 2:
+                return "Feb"
+                break;
+            case 3:
+                return "Mar"
+                break;
+            default:
+                return "Num"
+        }
+    }
+
+    // Function for the chart
     useEffect(() => {
         // The bar chart script
+
         // Parse dates and extract month
         expenses.forEach(expense => {
             expense.date = new Date(expense.date);
@@ -96,7 +116,7 @@ const CompanyPage = () => {
         const height = 400 - margin.top - margin.bottom;
 
         // Create SVG container
-        const svg = d3.create("svg")
+        const svg = d3.select(svgRef.current)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -113,6 +133,9 @@ const CompanyPage = () => {
             .nice()
             .range([height, 0]);
 
+        // Define bar color
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
         // Add bars to the chart
         svg.selectAll(".bar")
             .data(data)
@@ -122,6 +145,7 @@ const CompanyPage = () => {
             .attr("y", d => y(d.total))
             .attr("width", x.bandwidth())
             .attr("height", d => height - y(d.total));
+            
 
         // Add x-axis
         svg.append("g")
@@ -149,14 +173,7 @@ const CompanyPage = () => {
             .attr("x", d => x(d.month) + x.bandwidth() / 2)
             .attr("y", d => y(d.total) - 5)
             .attr("text-anchor", "middle")
-            .text(d => d3.format("$,.2f")(d.total));
-
-        const container = document.getElementById("chart-container");
-        if (container) {
-            // Append SVG to the chart-container element
-            container.appendChild(svg.node());
-            console.log("Done bro")
-        }
+            .text(d => (d.month));
 
     }, [expenses])
 
@@ -177,6 +194,10 @@ const CompanyPage = () => {
                 <p>Budget: ${company.budget}</p>
             </div>
 
+            <div id="chart-container">
+                <svg ref={svgRef}></svg>
+            </div>
+
             <div className="expense-list">
                 <div className="fixed-container">
                     <div className="CompanyTitle">
@@ -189,10 +210,6 @@ const CompanyPage = () => {
                 <div className="BottomButton">
                     <button onClick={() => navigate('/userpage/'+user_id)}>User Page</button>
                 </div>
-            </div>
-
-            <div id="chart-container">
-                
             </div>
                 
         </div>
