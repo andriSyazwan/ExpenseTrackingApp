@@ -85,24 +85,24 @@ public class AppRunner implements ApplicationRunner{
 		SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 
 		// Creating expense objects
-		Expense expTest1 = new Expense(1200.0, true, date.parse("01-01-2023"), userTest1, Marketing);
-		Expense expTest2 = new Expense(554.40, false, date.parse("01-02-2023"), userTest1, Travel);
+		Expense expTest1 = new Expense(1200.0, true, date.parse("01-01-2024"), userTest1, Marketing);
+		Expense expTest2 = new Expense(554.40, false, date.parse("01-02-2024"), userTest1, Travel);
 		Expense expTest3 = new Expense(1211.30, true, date.parse("01-03-2023"), userTest1, Training);
 		Expense expTest46 = new Expense(1200.0, true, date.parse("01-04-2023"), userTest1, Marketing);
-		Expense expTest47 = new Expense(554.40, false, date.parse("01-05-2023"), userTest1, Travel);
-		Expense expTest48 = new Expense(1211.30, true, date.parse("01-06-2023"), userTest1, Training);
-		Expense expTest49 = new Expense(554.40, false, date.parse("01-07-2023"), userTest1, Travel);
-		Expense expTest50 = new Expense(1211.30, true, date.parse("01-08-2023"), userTest1, Training);
+		Expense expTest47 = new Expense(554.40, false, date.parse("01-05-2022"), userTest1, Travel);
+		Expense expTest48 = new Expense(1211.30, true, date.parse("01-06-2022"), userTest1, Training);
+		Expense expTest49 = new Expense(554.40, false, date.parse("01-07-2022"), userTest1, Travel);
+		Expense expTest50 = new Expense(1211.30, true, date.parse("01-08-2022"), userTest1, Training);
 		Expense expTest51 = new Expense(1200.0, true, date.parse("01-08-2023"), userTest1, Marketing);
 		Expense expTest52 = new Expense(554.40, false, date.parse("01-09-2023"), userTest1, Travel);
 		Expense expTest53 = new Expense(1211.30, true, date.parse("01-10-2023"), userTest1, Training);
 		Expense expTest54 = new Expense(554.40, false, date.parse("01-05-2023"), userTest1, Travel);
-		Expense expTest55 = new Expense(1211.30, true, date.parse("01-06-2023"), userTest1, Training);
-		Expense expTest56 = new Expense(554.40, false, date.parse("01-07-2023"), userTest1, Travel);
-		Expense expTest57 = new Expense(1211.30, true, date.parse("01-08-2023"), userTest1, Training);
-		Expense expTest58 = new Expense(1200.0, true, date.parse("01-08-2023"), userTest1, Marketing);
-		Expense expTest59 = new Expense(554.40, false, date.parse("01-09-2023"), userTest1, Travel);
-		Expense expTest60 = new Expense(554.40, false, date.parse("01-09-2023"), userTest1, Travel);
+		Expense expTest55 = new Expense(1211.30, true, date.parse("01-06-2022"), userTest1, Training);
+		Expense expTest56 = new Expense(554.40, false, date.parse("01-07-2022"), userTest1, Travel);
+		Expense expTest57 = new Expense(1211.30, true, date.parse("01-08-2022"), userTest1, Training);
+		Expense expTest58 = new Expense(1200.0, true, date.parse("01-08-2022"), userTest1, Marketing);
+		Expense expTest59 = new Expense(554.40, false, date.parse("01-09-2021"), userTest1, Travel);
+		Expense expTest60 = new Expense(554.40, false, date.parse("01-09-2021"), userTest1, Travel);
 
 		Expense expTest4 = new Expense(1200.0, true, date.parse("01-01-2023"), userTest2, Marketing);
 		Expense expTest5 = new Expense(1200.0, true, date.parse("01-01-2023"), userTest2, Marketing);
