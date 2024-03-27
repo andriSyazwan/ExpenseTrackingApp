@@ -48,6 +48,11 @@ public class ExpenseController {
 	public List<Expense> getListOfExpensesViaId(@PathVariable("name") String companyName) {
 		return expenseService.getNamedCompanyExpenseList(companyName);
 	}
+
+	@GetMapping("company/{name}/{year}")
+	public List<Expense> getListOfExpenseByYear(@PathVariable("name") String companyName, @PathVariable("year") int year) {
+		return expenseService.getExpensesBasedOnCompanyAndYear(companyName, year);
+	}
 	
 	@GetMapping("user/{username}")
 	public List<Expense> getListOfExpensesViaUser(@PathVariable("username") String username) {

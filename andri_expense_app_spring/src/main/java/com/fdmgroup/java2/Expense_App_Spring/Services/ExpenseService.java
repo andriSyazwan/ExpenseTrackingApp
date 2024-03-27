@@ -38,13 +38,17 @@ public class ExpenseService {
 //	public List<Expense> getCompanyExpenseList(int companyId) {
 //		return expenseRepo.findByCompany_company_id(companyId);
 //	}
-	
+
+	// Retrieve expenses based on company
 	public List<Expense> getNamedCompanyExpenseList(String name) {
 		return expenseRepo.findByCompany_Name(name);
 	}
-	
+
+	// Retrieve expenses based on user
 	public List<Expense> getUserExpenseList(String username) {
 		return expenseRepo.findByUser_Username(username);
 	}
-	
+
+	// Retrieve expenses based on company and year
+	public List<Expense> getExpensesBasedOnCompanyAndYear(String name, int year) { return expenseRepo.findByCompanyAndYear_Name_Year(name, year); }
 }
