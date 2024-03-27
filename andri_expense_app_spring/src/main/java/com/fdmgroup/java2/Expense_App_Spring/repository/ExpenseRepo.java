@@ -13,4 +13,7 @@ public interface ExpenseRepo extends JpaRepository<Expense, Integer>{
 	List<Expense> findByCompany_Name(String name);
 //	List<Expense> findByCompany_company_id(int companyId);
 	List<Expense> findByUser_Username(String name);
+
+	@Query("SELECT e FROM Expense e WHERE e.company.name = :name AND YEAR(e.date) = :year")
+	List<Expense> findByCompanyAndYear(String name, int year);
 }
