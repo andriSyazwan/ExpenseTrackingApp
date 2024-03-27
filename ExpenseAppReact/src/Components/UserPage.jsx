@@ -156,6 +156,7 @@ const UserPage = () => {
       </div>
 
       <div className="expense-form">
+        <div className="formPad">
         <h3 className="pageTitle">Create Expense</h3>
         <form onSubmit={handleExpenseSubmit}>
           <label>
@@ -210,6 +211,7 @@ const UserPage = () => {
           <br></br>
           <button type="submit">Submit Expense</button>
         </form>
+        </div>
       </div>
     </div>
     );
