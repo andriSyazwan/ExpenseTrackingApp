@@ -74,10 +74,6 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 5. Push to the branch (`git push origin feature`)
 6. Create a pull request
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgments
 
 - Thanks to [D3.js](https://d3js.org/) for providing powerful visualization capabilities.
