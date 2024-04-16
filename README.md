@@ -1,4 +1,4 @@
-# Expense Tracker
+# Expense Tracker (A work in progress)
 
 Expense Tracker is a full-stack web application built with Spring Boot for the backend, React.js for the frontend, and MySQL database for data storage. It allows users to manage expenses, accounts, and budgets for company objects. The main feature of this application is the integration of D3.js library to visualize expenses over time and track budget adherence.
 
