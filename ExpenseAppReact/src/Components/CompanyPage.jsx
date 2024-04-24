@@ -73,109 +73,99 @@ const CompanyPage = () => {
         );
     }
 
-    // Function to convert number to date
-    function toDate(number) {
-        switch (number) {
-            case 1:
-                return "Jan"
-                break;
-            case 2:
-                return "Feb"
-                break;
-            case 3:
-                return "Mar"
-                break;
-            default:
-                return "Num"
-        }
-    }
 
-    // Function for the chart
-    useEffect(() => {
-        // The bar chart script
+// Function for the chart
+useEffect(() => {
+    // The bar chart script
 
-        // Parse dates and extract month
-        expenses.forEach(expense => {
-            expense.date = new Date(expense.date);
-            expense.month = expense.date.getMonth() + 1; // Add 1 to get month index starting from 1
-        });
+    // Parse dates and extract month
+    expenses.forEach(expense => {
+        expense.date = new Date(expense.date);
+        expense.month = expense.date.getMonth(); // Use 0-indexed month
+    });
 
-        // Calculate sum of expenses for each month
-        const expensesByMonth = d3.rollup(
-            expenses,
-            v => d3.sum(v, d => d.amount),
-            d => d.month
-        );
+    // Month names array
+    const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
 
-        // Convert rollup result to array of objects
-        const data = Array.from(expensesByMonth, ([month, total]) => ({ month, total }));
+    // Calculate sum of expenses for each month
+    const expensesByMonth = d3.rollup(
+        expenses,
+        v => d3.sum(v, d => d.amount),
+        d => d.month
+    );
 
-        // Set up SVG dimensions
-        const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-        const width = 600 - margin.left - margin.right;
-        const height = 400 - margin.top - margin.bottom;
+    // Convert rollup result to array of objects
+    const data = Array.from(expensesByMonth, ([month, total]) => ({ month: monthNames[month], total }));
 
-        // Create SVG container
-        const svg = d3.select(svgRef.current)
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
+    // Set up SVG dimensions
+    const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+    const width = 600 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
-        // Create scales
-        const x = d3.scaleBand()
-            .domain(data.map(d => d.month))
-            .range([0, width])
-            .padding(0.1);
+    // Create SVG container
+    const svg = d3.select(svgRef.current)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        const y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.total)])
-            .nice()
-            .range([height, 0]);
+    // Create scales
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.month))
+        .range([0, width])
+        .padding(0.1);
 
-        // Define bar color
-        const color = d3.scaleOrdinal(d3.schemeCategory10);
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.total)])
+        .nice()
+        .range([height, 0]);
 
-        // Add bars to the chart
-        svg.selectAll(".bar")
-            .data(data)
-            .join("rect")
-            .attr("class", "bar")
-            .attr("x", d => x(d.month))
-            .attr("y", d => y(d.total))
-            .attr("width", x.bandwidth())
-            .attr("height", d => height - y(d.total));
-            
+    // Define bar color
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        // Add x-axis
-        svg.append("g")
-            .attr("class", "x-axis")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x));
+    // Add bars to the chart
+    svg.selectAll(".bar")
+        .data(data)
+        .join("rect")
+        .attr("class", "bar")
+        .attr("x", d => x(d.month))
+        .attr("y", d => y(d.total))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(d.total));
+        
 
-        // Add y-axis
-        svg.append("g")
-            .attr("class", "y-axis")
-            .call(d3.axisLeft(y).ticks(null, "s"));
+    // Add x-axis
+    svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x));
 
-        // Add chart title
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -margin.top / 2)
-            .attr("text-anchor", "middle")
-            .text("Total Expenses by Month");
+    // Add y-axis
+    svg.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(y).ticks(null, "s"));
 
-        // Add labels to bars
-        svg.selectAll(".bar-label")
-            .data(data)
-            .join("text")
-            .attr("class", "bar-label")
-            .attr("x", d => x(d.month) + x.bandwidth() / 2)
-            .attr("y", d => y(d.total) - 5)
-            .attr("text-anchor", "middle")
-            .text(d => (d.month));
+    // Add chart title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -margin.top / 2)
+        .attr("text-anchor", "middle")
+        .text("Total Expenses by Month");
 
-    }, [expenses])
+    // Add labels to bars
+    svg.selectAll(".bar-label")
+        .data(data)
+        .join("text")
+        .attr("class", "bar-label")
+        .attr("x", d => x(d.month) + x.bandwidth() / 2)
+        .attr("y", d => y(d.total) - 5)
+        .attr("text-anchor", "middle")
+        .text(d => (d.month));
+
+}, [expenses]);
 
     // Returns loading screen up until all data is fetched 
     if(!isDataLoaded) {
