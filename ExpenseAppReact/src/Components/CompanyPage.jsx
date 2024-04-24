@@ -123,8 +123,10 @@ useEffect(() => {
         .nice()
         .range([height, 0]);
 
-    // Define bar color
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    // Define color based on amount
+    const color = d3.scaleOrdinal()
+        .domain(["green", "red"])
+        .range(["green", "red"]);
 
     // Add bars to the chart
     svg.selectAll(".bar")
@@ -134,8 +136,8 @@ useEffect(() => {
         .attr("x", d => x(d.month))
         .attr("y", d => y(d.total))
         .attr("width", x.bandwidth())
-        .attr("height", d => height - y(d.total));
-        
+        .attr("height", d => height - y(d.total))
+        .style("fill", d => (d.total < 4000 ? "green" : "red"));
 
     // Add x-axis
     svg.append("g")
